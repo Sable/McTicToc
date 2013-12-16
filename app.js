@@ -14,7 +14,6 @@ var express = require('express'),
 	errors = require('./lib/errors'),
 	appConfig = require('./appConfig.json'),
 	path = require('path'),
-	instrumentations = require("./lib/instrumentation.js"),
 	fs = require('fs');
 
 var type = grest.type,
