@@ -138,6 +138,9 @@ grest.rest(app, "", [
 	}
 ]);
 
+app.enable('strict routing');
+app.use('/client/', express.static(__dirname+'/client'));
+
 mongoClient.open(function (err, client) {
 	performance.createDBSchema(db);
     resultlist.createDBSchema(db);
