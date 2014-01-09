@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>McTicToc</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.css">
+    <link rel="stylesheet" href="css/bootstrap-tagsinput.css">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<script type="text/x-handlebars">
+<!-- Navbar Start -->
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><i class="glyphicon glyphicon-dashboard" style="font-size: 0.9em;"></i> McTicToc</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a id="notiLink" href="#" class="dropdown-toggle" data-toggle="dropdown" data-container="body" data-placement="bottom" data-original-title="" title=""><i class="glyphicon glyphicon-bell"></i> Notifications</a>
+                    <ul id="notiList" class="dropdown-menu">
+                        {{#each notification in notifications}}
+                            <li><a href="#" {{action 'showError' notification}} type="button"><i class="glyphicon glyphicon-exclamation-sign"></i> Failed running {{notification.setup.benchmarkName}} on {{notification.setup.backendName}}</a></li>
+                        {{else}}
+                            <li><div style="text-align: center;">Dah!! No notification!</div></li>
+                        {{/each}}
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-tasks"></i> Tasks</a>
+                    <ul id="tasksList" class="dropdown-menu">
+                        {{#each task in tasks}}
+                            <li>
+                                <div>{{#if task.compileTask}}
+                                    Compiling {{task.setup.benchmarkName}}
+                                {{else}}
+                                    Running {{task.setup.benchmarkName}} on {{task.setup.backendName}}
+                                {{/if}}</div>
+                                <div class="progress progress-striped active taskProgress">
+                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {{unbound task.progress}}%"></div>
+                                </div>
+                            </li>
+                        {{else}}
+                            <li><div style="text-align: center;">Hurrey!! There are no pending tasks!</div></li>
+                        {{/each}}
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav> <!-- /.navbar -->
+
+    <div id="main-container" class="container">
+        <div class="main-row row"> <!-- start: Main Menu -->
+            <div class="col-sm-2"></div>
+            <div id="sidebar-left" class="col-sm-2">
+                <div class="nav-collapse sidebar-nav collapse navbar-collapse bs-navbar-collapse">
+                    <ul class="nav nav-tabs nav-stacked main-menu nav-tabs-default">
+                        <li>{{#link-to 'home'}}<i class="glyphicon glyphicon-home"></i> Dashboard{{/link-to}}</li>
+                        <li>{{#link-to 'backends'}}<i class="glyphicon glyphicon-briefcase"></i> Back-Ends{{/link-to}}</li>
+                        <li>{{#link-to 'benchmarks'}}<i class="glyphicon glyphicon-folder-open"></i> Benchmarks{{/link-to}}</li>
+                        <li>{{#link-to 'runner'}}<i class="glyphicon glyphicon-play"></i> TicToc{{/link-to}}</li>
+                        <li>{{#link-to 'charts'}}<i class="glyphicon glyphicon-stats"></i> Charts{{/link-to}}</li>
+                        <li>{{#link-to 'tables'}}<i class="glyphicon glyphicon-th-list"></i> Tables{{/link-to}}</li>
+                        <li>{{#link-to 'about'}}<i class="glyphicon glyphicon-tower"></i> About{{/link-to}}</li>
+                    </ul>
+                </div>
+            </div> <!-- end: Main Menu -->
+            <div id="content" class="col-sm-10">
+                <div class="row">{{outlet}}</div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/x-handlebars" id="home">
+    <div class="col-sm-offset-3 col-sm-6">
+        {{#if connected}}<div class="panel panel-info">{{else}}<div class="panel panel-danger">{{/if}}
+            <div class="panel-heading">
+                <h2 class="panel-title">{{name}} {{#unless connected}} (Not connected){{/unless}}</h2>
+                {{#if isEditingURL}}
+                    <div class="row">
+                        <div class="col-xs-5">{{input type="text" class="form-control input-sm" style="height: 22px" value=url}}</div>
+                        <button {{action 'doneEditingURL'}} class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-ok"></i></button>
+                    </div>
+                {{else}}
+                    <small>{{url}} <button {{action 'editURL'}} class="btn btn-link btn-xs" style="color:#fff;"><i class=" glyphicon glyphicon-edit"></i></button></small>
+                {{/if}}
+            </div>
+            <div class="panel-body">
+                <!-- <h4>Host Configuration:</h4> -->
+                <div>{{hardware}}</div><div>{{software}}</div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/x-handlebars" id="backends">
+    {{#each}}
+        <div class="col-sm-4">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h2 class="panel-title">{{name}}</h2></div>
+                <div class="panel-body">
+                    <div>Version: {{version}}</div>
+                    <div>Tags: {{#each tag in tags}}<span class="badge">{{tag}}</span>{{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{/each}}
+</script>
+
+<script type="text/x-handlebars" id="benchmarks">
+    <div class="col-sm-offset-1 col-sm-10">
+        <div class="panel panel-default">
+            <div class="row" style="overflow: hidden;">
+                <div id="benchmarkContainer" class="col-sm-3 tl-radius bl-radius">
+                    <ul id="benchmarkList" class="nav nav-tabs nav-stacked nav-tabs-info">
+                        <li>{{input type="text" class="form-control input-primary reset-radius tl-radius" id="search-benchmark" placeholder="Search Benchmarks" value=searchBenchmarkTerm}}</li>
+                        {{#each}}
+                        <li>{{#link-to 'benchmark' this}} {{name}}{{/link-to}}</li>
+                        {{/each}}
+                    </ul>
+                </div>
+                <div id="benchmarkDescriptor" class="col-sm-8">
+                    {{outlet}}
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/x-handlebars" id="benchmark">
+    <div class="">
+        <br />
+        <p>Version: {{version}}</p>
+        <p>Tags: {{#each tag in tags}}<span class="badge lg-tag">{{tag}}</span>{{/each}}</p>
+        <p>Files: {{#each file in files}} {{#link-to 'showfile' this file class="label label-info label-flex file-link" }} {{file}} {{/link-to}} {{/each}}</p>
+        <p>{{outlet}}</p>
+    </div>
+</script>
+
+<script type="text/x-handlebars" id="showfile">
+    <div class="">
+        <pre>{{file}}</pre>
+    </div>
+</script>
+
+<script type="text/x-handlebars" id="runner">
+    <div class="col-sm-offset-1 col-sm-10">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h2 class="panel-title">Run Benchmarks</h2></div>
+            <div class="panel-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="run-name" class="col-sm-2 control-label">Name</label>
+                        <div class="col-sm-10">{{input id="run-name" type="text" class="form-control input-primary" placeholder="Give a name (e.g. fortran-build-3213-test-1)" value=runName}}</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="run-backend" class="col-sm-2 control-label">Backend</label>
+                        <div class="col-sm-10">{{view Ember.Select id="run-backend" class="form-control input-primary" content=backendsModel optionValuePath="content.id" optionLabelPath="content.name" selectionBinding='selectedBackEnd'}}</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="run-benchmark" class="col-sm-2 control-label">Benchmarks</label>
+                        <div class="col-sm-7">{{view Ember.Select id="run-benchmarks" class="form-control input-primary" multiple=true content=benchmarksModel optionValuePath="content.id" optionLabelPath="content.name" selectionBinding='selectedBenchmark'}}</div>
+                        <div class="col-sm-3">
+                            <button {{action 'selectBenchmarks'}} type="button" class="btn btn-primary btn-xs btn-block">Auto Select</button>
+                            <button {{action 'allBenchmarks'}} type="button" class="btn btn-default btn-xs btn-block">Select All</button>
+                            <button {{action 'clearBenchmarks'}} type="button" class="btn btn-default btn-xs btn-block">Clear All</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="run-ite" class="col-sm-2 control-label">Iterations</label>
+                        <div class="col-sm-10">{{input type="number" id="run-ite" class="form-control input-primary" value=runIte}}</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="run-scale" class="col-sm-2 control-label">Scale</label>
+                        <div class="col-sm-10">{{view Ember.Select id="run-scale" class="form-control input-primary" content=scaleModel optionValuePath="content.value" optionLabelPath="content.name" selectionBinding='runScale'}}</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="run-jit" class="col-sm-2 control-label">JIT Warm-up</label>
+                        <div class="col-sm-10">{{input type="checkbox" id="run-jit" class="form-control input-primary" checked=runJIT}}</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="warm-scale" class="col-sm-2 control-label">Warm-up Scale</label>
+                        <div class="col-sm-10">{{view Ember.Select id="warm-scale" class="form-control input-primary" content=scaleModel optionValuePath="content.value" optionLabelPath="content.name" selectionBinding='warmScale'}}</div>
+                    </div>
+                    <div class="form-group>">
+                        <button {{action 'submitRun'}} type="button" class="btn btn-primary">Run Benchmarks</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/x-handlebars" id="about">
+    <div class="col-sm-6">
+        <div class="panel panel-info">
+            <div class="panel-heading"><h2 class="panel-title">Licence</h2></div>
+            <div class="panel-body">
+                Licensed under the Apache License, Version 2.0 (the "License"); you may not use this work except in compliance with the License. You may obtain a copy of the License in the LICENSE file, or at:
+                <p></p><a target="_blank" href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>
+                <p></p>Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the LICENSE.
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="panel panel-info">
+            <div class="panel-heading"><h2 class="panel-title">About McTicToc</h2></div>
+            <div class="panel-body">
+                McTicToc is an app for interactive exploration of performance characteristics of complex software configurations. It is intended for performance evaluation of a family of compilers for MATLAB that are being developed at the McGill Compilation Lab, McLab.
+                <p></p>The current version connects to a NodeJS server that automates running performance experiments on multiple configurations of software and hardware and that provides a unified interface to past results.
+            </div>
+        </div>
+    </div>
+</script>
+
+<div class="modal fade" id="alertBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="alertTitle" class="modal-title" id="myModalLabel">Success!</h4>
+            </div>
+            <div id="alertBody" class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+	<script src="js/libs/jquery-1.10.2.js"></script>
+    <script src="js/libs/nprogress.js"></script>
+    <script src="js/libs/bootstrap.min.js"></script>
+	<script src="js/libs/handlebars-1.1.2.js"></script>
+    <script src="js/libs/bootstrap-tagsinput.min.js"></script>
+    <script src="js/libs/socket.io.js"></script>
+	<script src="js/libs/ember-1.2.0.js"></script>
+    <script src="js/libs/ember-sockets.min.js"></script>
+    <script src="js/libs/ember-data.js"></script>
+    <script src="js/service.js"></script>
+    <script src="js/app.js"></script>
+	<!-- to activate the test runner, add the "?test" query string parameter -->
+	<!--<script src="tests/runner.js"></script>-->
+</body>
+</html>
