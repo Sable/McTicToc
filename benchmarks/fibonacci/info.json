@@ -3,5 +3,5 @@
 "version": "1.0",
     "sources": "fibonacci/src",
     "runPath": "fibonacci/src/drv_fib.m",
-"tags": []
+"tags": ["recursion"]
 }
