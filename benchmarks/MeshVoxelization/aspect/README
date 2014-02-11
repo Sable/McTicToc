@@ -1,0 +1,11 @@
+The aspect I implemented records the largest size some arrays that have been 
+identified by matlab’s profiling engine as a growing array. It can then be 
+used give a large enough initial array to increase performances.
+
+For our benchmark, the output will be a fixed set of numbers.
+
+The maximal size of correctionLIST was 
+     0     0
+
+The maximal size of facetCROSSLIST was 
+     1    16

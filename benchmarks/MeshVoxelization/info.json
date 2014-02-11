@@ -1,0 +1,6 @@
+{
+"name": "MeshVoxelization",
+"version": "1.0",
+"sources": "MeshVoxelization/src",
+"runPath": "MeshVoxelization/src/Benchmark.m", "tags": ["Winter2014_COMP621"]
+}

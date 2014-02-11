@@ -1,0 +1,29 @@
+Run:
+
+python runner.py inside the directory to run the benchmark multiple times and produce the tables used in the report.
+
+Alternatively, from inside matlab or octave, the following command will run the benchmark:
+
+run_pagerank(scale)
+
+where scale is the scale factor (1,10,50 or 100).
+
+
+Here is the changes made to the benchmark between the two versions (diff src/powermethod.m improved/powermethod.m):
+
+36,41c36,43
+<   change = sum(abs(x-x0));
+<   if (debug) 
+<       change
+<   end
+<   if (change < tol)
+<     break;
+---
+>   if (mod(iteration,10) == 0)
+>       change = sum(abs(x-x0));
+>       if (debug) 
+>           change
+>       end
+>       if (change < tol)
+>         break;
+>       end

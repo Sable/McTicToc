@@ -1,0 +1,7 @@
+{
+    "name": "mozart",
+    "version": "1.0",
+    "sources": "mozart/src",
+    "runPath": "mozart/src/driver_mozart.m",
+    "tags": ["Winter2014_COMP621","file_handling", "subfunction"]
+}

@@ -1,0 +1,29 @@
+Benchmark description
+===================================
+This benchmark is a program to find the number of strong and false witnesses for a prime number in the Miller-Rabin primality test. More information can be found here:http://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test
+
+The aim is to see for a non-prime number p, how many smaller number a's in the Miller-Rabin test say that p is prime. Such a's are witnesses to the primality of p. This program includes two different tests to find these witnesses. A weaker test using Fermat's Little Theorem will return more witnesses, while the Miller-Rabin test will return less witnesses.
+
+For example, 289 is not prime, but 14 a's will say it is prime using the Miller-Rabin test. If a is picked randomly (as is the usual algorithm) this is an almost 5 percent chance of being wrong, which can have dire cryptographic consequences.
+
+For example, running witnesses(1181657) has 20 strong witnesses, and 62 weak witnesses.
+Note that 1181657 is a non-prime number.
+
+
+This program is interesting to compile as it is composed of a large number of nested loops, which exhaustively test a range of numbers. There are also a number of shifting and bit-wise comparison operators. Finally, the exponentiation method used here is very common throughout cryptography. Therefore optimizations would be applicable throughout a wide field.
+
+
+Running the benchmark
+===================================
+
+To run this benchmark, execute drv_witnesses function with scale parameter.
+Scale parameter can be either of the following values:
+	1 - Micro Run-time
+	10 - Small Run-time
+	50 - Medium Run-time
+	100 - Large Run-time
+	
+	
+The benchmark will give the witnesses function a composite (non-prime number). The function will return the number of strong witnesses and weak witnesses. These are deterministic for each input, and were calculated using the C++ code in the src directory.
+
+

@@ -1,0 +1,33 @@
+
+Aspects for the benchmark
+===================================
+
+`profileCalls` aspect class defines several metrics to profile function calls.
+
+What we count for each function:
+* nb calls
+* total execution time
+* parent functions (that call the current one)
+* children functions (hat are called by the current one)
+
+What we can do with this:
+* see the function call chain
+* see time consuming functions (that have to be optimized)
+* see most called functions (that have to be optimized)
+
+Actions are weaved around functions calls and main execiution.
+
+`loopCalls` aspect class defines several metrics to profile loops.
+
+What we count for each loop:
+* location (function:line)
+* nb executions
+* total nb iterations
+* total execution time
+
+What we can do with this:
+* see function using a lot of loops
+* see repeatdly executed loops (that have to be optimized)
+* see time consuming loops (that have to be optimized)
+
+Actions are weaved around loops, bedofre loop bodies and around main execiution.

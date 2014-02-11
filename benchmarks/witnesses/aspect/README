@@ -1,0 +1,13 @@
+
+Aspects for the benchmark
+===================================
+
+cache.m implements a naive caching algorithm for function calls. The function name and parameters will be looked up in the cache map to see if that result has been calculated before. If so, the stored value will be returned. Otherwise, the value is calculated and then stored in the cache map.
+
+I had intended to use this aspect to actually gain performance compared to the original benchmark. This does not seem to be the case. However, this aspect will still calculate the number of cache hits and cache misses. This would be excellent profiling information to determine whether a more sophisticated caching algorithm would be beneficial to create.
+
+Notes
+=============
+The weaver failed for files that started with commented lines
+It would be nice if the weaver mentioned if an aspect file was forgotten
+Octave (3.2.4) doesn't have classdef, so it can't run the weaved output

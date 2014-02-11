@@ -1,0 +1,15 @@
+
+Optimizing the benchmark
+===================================
+
+We rewrite our benchmark program to benefit at a maximum level of the MATLAB jit optimizer
+
+Changes:
+ * all the computation are done over preallocated matrix;
+ * vector built-in function are replaced by standard loop blocks;
+ * loop headers use numeric indexes that are incremented until the length of the matrix is reached;
+ * comparison are done on int32 typed variables;
+ * we replaced function calls by matrix accesses to benefit from the CPU caches.
+
+All these modifications are made to benefit from the jit optimizer only.
+We don't expect any ameliorations with jit off or Octave (actually they make it worse).

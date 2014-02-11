@@ -1,0 +1,11 @@
+
+Optimizing the benchmark
+===================================
+
+To optimize the benchmark, I decided to focus on the expon function, as it is clearly the hottest part of the program based on the profiling.
+
+My focus was on optimizing the code to remove the exponentation of 2, as well as decrease the use of the bitand function, which is expensive compared to C++.
+
+My first revision then used the bitget function to directly extract the bit from the exp variable. However, the documentation is not clear, and bitget cannot take two ints as parameters.
+
+The proper use of bitget is to place the variable into an array of ones and zeros. As the purpose of the first loop in the unoptimized code is to find the first 1 bit in the variable, it was then easy to substitute the find function instead. As well, since the bits are now in an array, the code can easily loop through the array and check for 1 bits.

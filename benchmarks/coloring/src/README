@@ -1,0 +1,32 @@
+
+Running the benchmark
+===================================
+
+To run this benchmark, execute drv_coloring function with scale parameter.
+Scale parameter can be either of the following values:
+	1 - Micro Run-time
+	2 - Small Run-time
+	3 - Medium Run-time
+	4 - Large Run-time
+
+This benchmark uses 3 inputs files that are loaded using the `load` function.
+Benchmark files are located in the `datas` folder at the root of the archive.
+Path to the benchmark files folder can be edited by setting the value of `datasdir` in the `drv_coloring` function.
+
+Benchmark files are `scale.classes`, `scale.datas` and `scale.results` where `scale` should be replaced by the correct value: `micro` (around 1 sec), `small` (around 10 sec), `medium` (around 30 sec) or `larger` (around 5 min).
+Examples can be found in the `datas` folder.
+
+ * `scale.classes` contains an integer array of the classes ids;
+ * `scale.datas` contains the subtyping matrix used to compute colors;
+ 		Rows and columns represent classes indexed by their ids.
+		Each row represents a class and each line represents possible super-classes.
+		Possible values are:
+    		0 - no inheritance
+			1 - class itself
+			2 - direct parent
+			3 - ancestor
+* `scale.results` the expected coloring results as an integer array.
+
+The benchmark can be launched using the `drv_coloring.m` function that takes only one parameter.
+We also include a `bench.m` function that execute 10 times the same benchmark with the same scale and compute the min, max, average times and also the standard derivation on the 10 runs.
+

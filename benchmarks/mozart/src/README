@@ -1,0 +1,30 @@
+BASIC USAGE
+===========
+
+The mozart benchmark can be ran either manually with the following command:
+
+    mozart('mozart-256x256.ppm', 15, 0.5, [0 0 -1]);
+
+Or through the driver function:
+
+    driver_mozart(n);
+
+Where n ∈ {1, 10, 50, 100}
+
+
+EXTRA PARAMETERS
+================
+
+I have added two extra parameters that can be fed to the mozart function:
+
+- A PRNG seed can be passed as an argument to ensure that multiple runs
+  perform the same compuations.
+- A showPlot flag that will show the 3D result.
+
+RESIZE.SH
+=========
+
+To be able to run the driver file, we need larger versions of the image;
+resize.sh will take the 256x256 image and create larger versions of it.  These
+versions are not shipped in the tarball, since that would make the archive
+exceed 100 MB.

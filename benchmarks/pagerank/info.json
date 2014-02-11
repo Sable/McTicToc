@@ -1,0 +1,7 @@
+{
+    "name": "PageRank",
+    "version": "1.0",
+    "sources": "pagerank/src",
+    "runPath": "pagerank/src/run_pagerank.m",
+    "tags": ["Winter2014_COMP621","file_handling"]
+}

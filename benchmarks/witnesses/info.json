@@ -1,0 +1,7 @@
+{
+	"name": "witnesses",
+	"version": "1.0",
+	"sources": "witnesses/src",
+	"runPath": "witnesses/src/drv_witnesses.m",
+	"tags": ["Winter2014_COMP621"]	
+}

@@ -6,11 +6,17 @@
         "ARRAY_GROWING",
         "LAMBDA",
         "OBJECT",
+	"GLOBAL_VARIABLE",
         "FEVAL",
         "CELL_ARRAY",
         "OBJECT",
         "EVAL",
         "FUNCTION_HANDLE",
-        "RECURSION"
+	"SUBFUNCTION",
+	"STRUCTURE",
+	"NESTED_FUNCTION",
+        "RECURSION",
+	"Winter2014_COMP621",
+	"FILE_HANDLING"
     ]
 }

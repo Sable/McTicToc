@@ -1,0 +1,5 @@
+My aspect is a simple timer aspect; it measures the time the main loop
+takes to execute and the time spent in the Fast Fourier Transform
+functions.  These are typically some of the most expensive functions
+called in the benchmark, and it's interesting to see if they account
+for a large portion of the execution time.

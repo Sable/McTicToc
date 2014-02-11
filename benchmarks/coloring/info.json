@@ -1,0 +1,7 @@
+{
+	"name": "coloring",
+	"version": "1.0",
+	"sources": "coloring/src",
+	"runPath": "coloring/src/drv_coloring.m",
+	"tags": ["Winter2014_COMP621", "array_growing", "function_handle", "global_variable","file_handling"]
+}

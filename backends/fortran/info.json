@@ -10,6 +10,7 @@
         "CELL_ARRAY",
         "OBJECT",
         "EVAL",
-        "FUNCTION_HANDLE"
+        "FUNCTION_HANDLE",
+	"Winter2013_COMP621"
     ]
 }

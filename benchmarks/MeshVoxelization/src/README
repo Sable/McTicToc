@@ -1,0 +1,5 @@
+The benchmark can be runned by using the function Benchmark. It takes as 
+argument the value either, 1, 10, 50, or 100, corresponding to the micro, 
+small, medium, or larger run-time scale. The function TicToc serves as a 
+wrapper for Benchmark with the tic and toc commands used before and after 
+the call to Benchmark.
