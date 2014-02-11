@@ -14,11 +14,12 @@ node_modules
 
 npm-debug.log
 
-*.m~
+*.*~
 
 *.mex*
-	
+
 slprj/
 .idea/
 client/bower_components/
 client/app.write.js
+benchmarks/*/*output/*

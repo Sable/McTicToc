@@ -1,7 +1,0 @@
-{
-	"name": "adapt",
-	"version": "1.0",
-	"sources": "adpt_test/src",
-	"runPath": "adpt_test/src/drv_adpt.m",
-	"tags": ["array_growing"]	
-}

@@ -1,0 +1,7 @@
+{
+	"name": "adpt",
+	"version": "1.0",
+	"sources": "adpt/src",
+	"runPath": "adpt/src/drv_adpt.m",
+	"tags": ["array_growing"]	
+}
